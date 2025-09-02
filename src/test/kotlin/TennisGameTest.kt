@@ -1,6 +1,7 @@
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.BeforeTest
+import kotlin.test.assertFailsWith
 
 class TennisGameTest {
 
@@ -87,7 +88,7 @@ class TennisGameTest {
         game.reset()
         assertEquals("Love–Love", game.getScore())
     }
-    
+
     @Test
     fun `player 2 wins after deuce`() {
         awardPoints(1, 3)
@@ -99,5 +100,15 @@ class TennisGameTest {
 
         game.awardPoint(2)
         assertEquals("Player 2 wins", game.getScore())
+    }
+
+    @Test
+    fun `awardPoint throws for invalid playerId`() {
+        assertFailsWith<IllegalArgumentException> {
+            game.awardPoint(3)
+        }
+        assertFailsWith<IllegalArgumentException> {
+            game.awardPoint(0)
+        }
     }
 }
