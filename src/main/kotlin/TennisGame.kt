@@ -4,9 +4,8 @@ import kotlin.math.abs
 /**
  * Represents a single game of Tennis between two players.
  *
- * This class tracks scores based on points awarded and formats the output
- * according to standard tennis rules: Love, 15, 30, 40, Deuce, Advantage, and Win.
- * The game state becomes final once a player wins.
+ * This class tracks scores for a single game and does not handle sets or matches.
+ * The game state becomes final once a player wins, and further points are ignored.
  */
 class TennisGame {
 
@@ -14,12 +13,17 @@ class TennisGame {
     private var p2Score = 0
 
     /**
-     * Awards a point to the specified player.
+     * Awards a point to the specified player, updating the internal score.
      *
-     * @param playerId The player who scored, either 1 or 2.
-     *                 Calls are ignored if the game has already been won.
+     * This call is ignored if the game has already been won.
+     *
+     * @param playerId The player who scored, must be 1 or 2.
+     * @throws IllegalArgumentException if playerId is not 1 or 2.
+     * @sample `awardPoint(1)`
      */
     fun awardPoint(playerId: Int) {
+        require(playerId == 1 || playerId == 2) { "playerId must be 1 or 2" }
+
         if (hasWinner()) {
             return // Game is over, no more points can be awarded.
         }
@@ -31,9 +35,12 @@ class TennisGame {
     }
 
     /**
-     * Returns the current score as a formatted string.
+     * Returns the current score as a formatted string (e.g., "15–30", "Deuce").
      *
      * The output follows a strict priority: Win > Deuce > Advantage > Normal Score.
+     *
+     * @return The formatted score string.
+     * @sample `val score = getScore() // "Advantage Player 1"`
      */
     fun getScore(): String {
         return when {
@@ -45,7 +52,9 @@ class TennisGame {
     }
 
     /**
-     * Resets the game to its initial state (0-0, "Love–Love").
+     * Resets the game to its initial state (0-0).
+     *
+     * @sample `reset() // Score is now "Love–Love"`
      */
     fun reset() {
         p1Score = 0
@@ -78,7 +87,7 @@ class TennisGame {
         return if (p1Score > p2Score) 1 else 2
     }
 
-    // -- discarded because of redundance --
+    // -- Commented out for reference as requested --
     /*
     private fun winnerIdOrNull(): Int? {
         if (!hasWinner()) return null
@@ -96,12 +105,13 @@ class TennisGame {
     }
 
     private fun mapScoreToText(score: Int): String {
+        require(score in 0..3) { "Unexpected score: $score" }
         return when (score) {
             0 -> "Love"
             1 -> "15"
             2 -> "30"
             3 -> "40"
-            else -> "" // Should not be reached in normal flow
+            else -> throw IllegalStateException("Score is out of range 0-3 after require check")
         }
     }
 }
