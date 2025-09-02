@@ -94,24 +94,6 @@ Unit tests are written with `kotlin.test` and run on the JUnit 5 platform. They 
 - A straight win (e.g., 4-0).
 - The game correctly ignoring points awarded after a win has occurred.
 
-## Interview Walkthrough
-
-This project can be used to demonstrate several core software engineering skills:
-
-1.  **Problem Decomposition**: "I started by breaking down the rules of tennis into four distinct states: Normal, Deuce, Advantage, and Win. The `getScore` method implements this logic with a `when` expression, checking for each state in order of priority."
-2.  **API Design**: "I designed a minimal public API (`awardPoint`, `getScore`, `reset`) to hide the internal implementation (the two score counters). This encapsulates the state and makes the class easy to use."
-3.  **Readability & Helpers**: "Instead of putting all the logic in one large function, I created small, private helper functions like `hasWinner` and `isDeuce`. This makes `getScore` declarative and easy to read."
-4.  **Testing**: "I wrote unit tests to cover all the major scenarios and edge cases we discussed, such as winning from Deuce, points being ignored after a win, and ensuring high ties like 5-5 correctly resolve to Deuce."
-5.  **Defensive Coding**: "I added `require` checks to `awardPoint` and internal helpers to fail fast if the input is invalid, which makes the class more robust."
-
-## Notes on AI Usage
-
-An AI assistant (Google's Gemini) was used for the following tasks in this project:
-- **Initial scaffolding and refactoring**: Assisted in creating the initial class structure and applying refactors, such as consolidating helper functions.
-- **Documentation**: Generated KDoc comments and the initial draft of this README based on specific outlines.
-- **Git integration**: Provided the sequence of commands to initialize the repository and connect it to GitHub.
-
-All code was reviewed, and final changes were directed by the developer to ensure alignment with the project goals.
 
 ## License
 
